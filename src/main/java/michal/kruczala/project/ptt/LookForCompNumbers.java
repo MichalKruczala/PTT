@@ -1,16 +1,29 @@
 package michal.kruczala.project.ptt;
 
-public class LookForCompNumber {
+import java.util.ArrayList;
 
-    public String lookForCompNumber(String result) {
+public class LookForCompNumbers {
 
-       int actualValue = result.indexOf("turniej.php?nr=");
-        String compNumber = result.substring(actualValue+15,actualValue+16);
-        String compNumber1 = result.substring(actualValue+17,actualValue+18);
-      //  String compNumber2 = result.substring(actualValue+17,actualValue+18);
-      //  String compNumber3 = result.substring(actualValue+19,actualValue+20);
-String compNumberAll =compNumber+  compNumber1;// + compNumber2 + compNumber3;
-      return compNumberAll;
+    public ArrayList lookForCompNumbers(String result) {
+
+        ArrayList<String> compNumbers = new ArrayList<>();
+
+        int actualValue = result.indexOf("turniej.php?nr=");
+        String firstCompNumber = result.substring(actualValue);
+        compNumbers.add(firstCompNumber);
+        int lastValue = result.lastIndexOf("turniej.php?nr=");
+
+        for (int i = 0; i <= lastValue; i++) {
+
+            int nextValue = result.indexOf("turniej.php?nr=", actualValue);
+            actualValue = actualValue + nextValue;
+            String nextCompNumber = result.substring(nextValue + 15, nextValue + 19);
+            compNumbers.add(nextCompNumber);
+        }
+        return compNumbers;
+
+
+
     }
 }
 //        result;

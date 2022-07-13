@@ -1,6 +1,7 @@
 package michal.kruczala.project.ptt;
 
 import michal.kruczala.project.ptt.readers.WebReader;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ParserPTT {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParserPTT.class);
     private static final WebReader webReader = new WebReader();
-    private static final  LookForCompNumber lookForCompNumberObject = new LookForCompNumber();
+    private static final LookForCompNumbers lookForCompNumbersObject = new LookForCompNumbers();
 
     private static final String PTTWebSite = "https://baza.taniec.pl/?v=turnieje&p=arch";
 
@@ -22,9 +23,10 @@ public class ParserPTT {
 
         String result = webReader.downloadWebPage(PTTWebSite);
         LOGGER.debug(result);
-        ArrayList<String>CompNumbers = new ArrayList<>();
-       CompNumbers.add(lookForCompNumberObject.lookForCompNumber(result));
-        System.out.println(CompNumbers);
+
+        lookForCompNumbersObject.lookForCompNumbers(result);
+        LOGGER.debug(String.valueOf(lookForCompNumbersObject.lookForCompNumbers(result)));
+
 
     }
 
