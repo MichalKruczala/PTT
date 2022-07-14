@@ -24,10 +24,14 @@ public class ParserPTT {
         String result = webReader.downloadWebPage(PTTWebSite);
         LOGGER.debug(result);
 
-        lookForCompNumbersObject.lookForCompNumbers(result);
-        LOGGER.debug(String.valueOf(lookForCompNumbersObject.lookForCompNumbers(result)));
+        extractCompNumbersFromPTTWebsite(result);
+        LOGGER.debug(extractCompNumbersFromPTTWebsite(result));
 
 
+    }
+
+    private static String extractCompNumbersFromPTTWebsite(String result) {
+        return String.valueOf(lookForCompNumbersObject.lookForCompNumbers(result));
     }
 
 }
