@@ -8,18 +8,19 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Scanner;
 
 @Slf4j
-public class LookForArchivalYearComps {
-    Scanner sc = new Scanner(System.in);
+public class ArchivalCompetitionParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParserPTT.class);
+    Scanner sc = new Scanner(System.in);
     private static int year;
 
     public String lookForArchivalYearCompsENDURL() {
+        System.out.print("LOOKING FOR ARCHIVAL COMPETITION? ");
         do {
             System.out.print("Insert Year of Comps ,you are interested in (possible years 2004-2022): ");
             year = sc.nextInt();
 
             LOGGER.debug(year + " - chosen year");
-            if (year < 2004 || year > 2022 ) {
+            if (year < 2004 || year > 2022) {
                 System.out.println("Wrong year");
             }
 

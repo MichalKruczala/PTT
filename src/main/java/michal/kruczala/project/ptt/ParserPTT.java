@@ -13,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ParserPTT {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParserPTT.class);
     private static final WebReader webReader = new WebReader();
-    private static final CompetitionNumberParser lookForCompNumbersObject = new CompetitionNumberParser();
-    private static final LookForArchivalYearComps lookForArchivalYearComps = new LookForArchivalYearComps();
+    private static final CompetitionNumberParser competitionNumberParserObject = new CompetitionNumberParser();
+    private static final ArchivalCompetitionParser lookForArchivalYearComps = new ArchivalCompetitionParser();
     private static final String PTTWebSite = "https://baza.taniec.pl/?v=turnieje&p=arch";
 
 
@@ -37,7 +37,7 @@ public class ParserPTT {
     }
 
     private static String extractCompNumbersFromPTTWebsite(String result) {
-        return String.valueOf(lookForCompNumbersObject.lookForCompetitionNumbers(result));
+        return String.valueOf(competitionNumberParserObject.lookForCompetitionNumbers(result));
     }
 
 }
