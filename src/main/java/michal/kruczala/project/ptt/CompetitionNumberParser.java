@@ -40,8 +40,4 @@ public class CompetitionNumberParser {
             }
         }
     }
-
-//    private List<String> ListInterface() {
-//        return competitionNumbers;
-//    }
 }

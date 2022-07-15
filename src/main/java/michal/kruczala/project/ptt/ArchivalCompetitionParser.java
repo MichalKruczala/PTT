@@ -11,10 +11,10 @@ import java.util.Scanner;
 public class ArchivalCompetitionParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParserPTT.class);
     Scanner sc = new Scanner(System.in);
-    private static int year;
 
     public String lookForArchivalYearCompsENDURL() {
         System.out.print("LOOKING FOR ARCHIVAL COMPETITION? ");
+        int year;
         do {
             System.out.print("Insert Year of Comps ,you are interested in (possible years 2004-2022): ");
             year = sc.nextInt();
