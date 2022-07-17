@@ -12,11 +12,17 @@ public class ArchivalCompetitionParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParserPTT.class);
     Scanner sc = new Scanner(System.in);
 
-    public String lookForArchivalYearCompsENDURL() {
-        System.out.print("LOOKING FOR ARCHIVAL COMPETITION? ");
+    public String parse() {
+
+        LOGGER.debug("Insert Year of Comps ,you are interested in (possible years 2004-2022): ");
+
+        int endURL = endUrl();
+        return "&sz_rok=" + endURL;
+    }
+
+    private int endUrl() {
         int year;
         do {
-            System.out.print("Insert Year of Comps ,you are interested in (possible years 2004-2022): ");
             year = sc.nextInt();
 
             LOGGER.debug(year + " - chosen year");
@@ -25,6 +31,6 @@ public class ArchivalCompetitionParser {
             }
 
         } while (year < 2004 || year > 2022);
-        return "&sz_rok=" + year;
+        return year;
     }
 }
