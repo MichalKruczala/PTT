@@ -16,37 +16,28 @@ import static michal.kruczala.project.ptt.AllCompetitionSitesThisYearParser.getL
 public class ParserPTT {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParserPTT.class);
     private static final WebReader webReader = new WebReader();
-    private static final CompetitionNumberParser competitionNumberParserObject = new CompetitionNumberParser();
+    private static final CompetitionNumberParser competitionNumberParser = new CompetitionNumberParser();
     private static final ArchivalCompetitionParser lookForArchivalYearComps = new ArchivalCompetitionParser();
     private static final String PTTWebSite = "https://baza.taniec.pl/?v=turnieje&p=arch";
 
     public static void main(String[] args) throws IOException {
 
-        String result = webReader.downloadWebPage(PTTWebSite);
-        LOGGER.debug(result);
+        String pageContent = webReader.downloadWebPage(PTTWebSite);
+        LOGGER.debug(pageContent);
 
-        extractCompNumbersFromPTTWebsite(result);
-        LOGGER.debug(String.valueOf(extractCompNumbersFromPTTWebsite(result)));
-
-
-        displayArchivalPttWebsite();
-        LOGGER.debug(displayArchivalPttWebsite());
+        List<String> competitionNumbers = competitionNumberParser.parse(pageContent);
+        LOGGER.debug(String.valueOf(competitionNumbers));
 
 
-        System.out.println(getListOfAllCompetitionSitesThisYear(result));
-        LOGGER.debug(String.valueOf(getListOfAllCompetitionSitesThisYear(result)));
+        String archivalPttWebSite = webReader.downloadWebPage(PTTWebSite + lookForArchivalYearComps.lookForArchivalYearCompsENDURL());
+        LOGGER.debug(archivalPttWebSite);
+
+
+        List<String> ListOfAllCompetitionSitesThisYear = getListOfAllCompetitionSitesThisYear(pageContent);
+        LOGGER.debug(String.valueOf(ListOfAllCompetitionSitesThisYear));
 
     }
 
-
-
-    private static String displayArchivalPttWebsite() throws IOException {
-        return String.valueOf(webReader.downloadWebPage(PTTWebSite + lookForArchivalYearComps.lookForArchivalYearCompsENDURL()));
-    }
-
-    static List extractCompNumbersFromPTTWebsite(String result) {
-        return (competitionNumberParserObject.lookForCompetitionNumbers(result));
-    }
 
 }
 
