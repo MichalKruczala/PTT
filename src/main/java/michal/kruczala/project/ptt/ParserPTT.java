@@ -5,13 +5,13 @@ import michal.kruczala.project.ptt.readers.WebReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import lombok.extern.slf4j.Slf4j;
 
-import static michal.kruczala.project.ptt.AllCompetitionSitesThisYearParser.getListOfAllCompetitionSitesThisYear;
 
 @Slf4j
 public class ParserPTT {
@@ -19,6 +19,7 @@ public class ParserPTT {
     private static final WebReader webReader = new WebReader();
     static final CompetitionNumberParser competitionNumberParser = new CompetitionNumberParser();
     private static final ArchivalCompetitionParser lookForArchivalYearComps = new ArchivalCompetitionParser();
+    private static final CompetitionSitesParser competitionSitesParser = new CompetitionSitesParser();
     private static final String PTTWebSite = "https://baza.taniec.pl/?v=turnieje&p=arch";
 
     public static void main(String[] args) throws IOException {
@@ -30,18 +31,30 @@ public class ParserPTT {
         LOGGER.debug(String.valueOf(competitionNumbers));
 
 
-        String archivalPttWebSite = webReader.downloadWebPage(PTTWebSite + lookForArchivalYearComps.parse());
-        LOGGER.debug(archivalPttWebSite);
+        String chosenArchivalPttWebSite = webReader.downloadWebPage(PTTWebSite + lookForArchivalYearComps.yearChosenByUser());
+        LOGGER.debug(chosenArchivalPttWebSite);
 
 
-        List<String> ListOfAllCompetitionSitesThisYear = getListOfAllCompetitionSitesThisYear(pageContent);
-        LOGGER.debug(String.valueOf(ListOfAllCompetitionSitesThisYear));
+        List<String> ListOfAllCompetitionsLinks2022 = competitionSitesParser.getListOfCompetitionSites(pageContent);
+        LOGGER.debug(String.valueOf(ListOfAllCompetitionsLinks2022));
+
+
+        contentFromAllCompetitionSites2022(ListOfAllCompetitionsLinks2022);
 
     }
 
 
+    private static void contentFromAllCompetitionSites2022(List<String> ListOfAllCompetitionsLinks2022) {
+        ListOfAllCompetitionsLinks2022.forEach(link -> {
+            try {
+                webReader.downloadWebPage(link);
+                LOGGER.debug(webReader.downloadWebPage(link));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }
-
 
 
 

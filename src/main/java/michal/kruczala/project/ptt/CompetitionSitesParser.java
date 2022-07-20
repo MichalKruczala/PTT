@@ -6,11 +6,11 @@ import java.util.List;
 import static michal.kruczala.project.ptt.ParserPTT.competitionNumberParser;
 
 
-public class AllCompetitionSitesThisYearParser {
-    static List<String> getListOfAllCompetitionSitesThisYear(String pttWebSite) {
+public class CompetitionSitesParser {
+    public List<String> getListOfCompetitionSites(String pttWebSite) {
 
         List<String> listOfAllCompetitionSitesThisYear = new ArrayList<>();
-        String fraze = "turniej.php?nr=";
+        String fraze = "https://baza.taniec.pl/turniej.php?nr=";
 
         for (Object competitionNumber : competitionNumberParser.parse(pttWebSite)
         ) {

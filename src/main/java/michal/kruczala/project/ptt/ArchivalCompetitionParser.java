@@ -12,15 +12,10 @@ public class ArchivalCompetitionParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParserPTT.class);
     Scanner sc = new Scanner(System.in);
 
-    public String parse() {
 
+
+    public String yearChosenByUser() {
         LOGGER.debug("Insert Year of Comps ,you are interested in (possible years 2004-2022): ");
-
-        int endURL = endUrl();
-        return "&sz_rok=" + endURL;
-    }
-
-    private int endUrl() {
         int year;
         do {
             year = sc.nextInt();
@@ -31,6 +26,7 @@ public class ArchivalCompetitionParser {
             }
 
         } while (year < 2004 || year > 2022);
-        return year;
+
+        return "&sz_rok="+year;
     }
 }
