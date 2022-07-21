@@ -3,6 +3,7 @@ package michal.kruczala.project.ptt;
 import michal.kruczala.project.ptt.readers.WebReader;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -22,7 +23,7 @@ public class ParserPTT {
     private static final CompetitionSitesParser competitionSitesParser = new CompetitionSitesParser();
     private static final String PTTWebSite = "https://baza.taniec.pl/?v=turnieje&p=arch";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
 
         String pageContent = webReader.downloadWebPage(PTTWebSite);
         LOGGER.debug(pageContent);
@@ -45,16 +46,16 @@ public class ParserPTT {
 
 
     private static void contentFromAllCompetitionSites2022(List<String> ListOfAllCompetitionsLinks2022) {
-        ListOfAllCompetitionsLinks2022.forEach(link -> {
+
+        ListOfAllCompetitionsLinks2022.forEach(link ->
+        {
             try {
-                webReader.downloadWebPage(link);
                 LOGGER.debug(webReader.downloadWebPage(link));
             } catch (IOException e) {
-                e.printStackTrace();
+               LOGGER.error("Error while reading content from all competition sites");
             }
         });
     }
+
 }
-
-
 

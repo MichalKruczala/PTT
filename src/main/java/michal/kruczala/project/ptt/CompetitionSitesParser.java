@@ -10,11 +10,11 @@ public class CompetitionSitesParser {
     public List<String> getListOfCompetitionSites(String pttWebSite) {
 
         List<String> listOfAllCompetitionSitesThisYear = new ArrayList<>();
-        String fraze = "https://baza.taniec.pl/turniej.php?nr=";
+        String link = "https://baza.taniec.pl/turniej.php?nr=";
 
-        for (Object competitionNumber : competitionNumberParser.parse(pttWebSite)
+        for (String competitionNumber : competitionNumberParser.parse(pttWebSite)
         ) {
-            StringBuilder sb = new StringBuilder(fraze);
+            StringBuilder sb = new StringBuilder(link);
             listOfAllCompetitionSitesThisYear.add(sb.append(competitionNumber).toString());
         }
         return listOfAllCompetitionSitesThisYear;
