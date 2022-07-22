@@ -13,31 +13,38 @@ import java.util.Scanner;
 @Slf4j
 public class ArchivalCompetitionParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParserPTT.class);
-    private SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy");
+    private final SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy");
     private final Scanner sc = new Scanner(System.in);
     private final Date nowDate = new Date();
-    String year;
+    Date chosenYear;
+
 
     public String yearChosenByUser() throws ParseException {
 
-        LOGGER.debug("Insert Year of Comps ,you are interested in (possible years 2004-2022): ");
 
+        Date firstArchivalCompetitionYear = dataFormat.parse("2004");
 
-        Date firstArchivalYear = dataFormat.parse("2004");
-        Date chosenYear = dataFormat.parse(year);
-        Date actualYear = nowDate;
 
         do {
-            year =  sc.nextLine();
-             //   tu pracaaaa by wydobyć tylko rok w typie Date!!!
-            LOGGER.debug(year + " - chosen year");
+            LOGGER.debug("Insert Year of Comps ,you are interested in (possible years 2004-2022): ");
+            chosenYear = convertGivenYearToDataType(takeYearFromUser());
+            LOGGER.debug(chosenYear + " - chosen year");
 
-            if (actualYear.after(firstArchivalYear) || chosenYear.before(actualYear)) {
+            if (chosenYear.before(firstArchivalCompetitionYear) || chosenYear.after(nowDate)) {
                 LOGGER.debug("Wrong year");
             }
-        } while (chosenYear.before(firstArchivalYear) || chosenYear.after(nowDate));
+        } while (chosenYear.before(firstArchivalCompetitionYear) || chosenYear.after(nowDate));
 
-        return "&sz_rok=" + year;
+        return "&sz_rok=" + chosenYear.getYear();
     }
+
+    private String takeYearFromUser() {
+        return sc.next();
+    }
+
+    private Date convertGivenYearToDataType(String year) throws ParseException {
+        return dataFormat.parse(year);
+    }
+
 
 }

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,12 +39,12 @@ public class ParserPTT {
         LOGGER.debug(String.valueOf(ListOfAllCompetitionsLinks2022));
 
 
-        contentFromAllCompetitionSites2022(ListOfAllCompetitionsLinks2022);
+        getContentFromAllCompetitionSites2022(ListOfAllCompetitionsLinks2022);
 
     }
 
 
-    private static void contentFromAllCompetitionSites2022(List<String> ListOfAllCompetitionsLinks2022) {
+    private static void getContentFromAllCompetitionSites2022(List<String> ListOfAllCompetitionsLinks2022) {
 
         ListOfAllCompetitionsLinks2022.forEach(link ->
         {
