@@ -16,7 +16,7 @@ public class ArchivalCompetitionParser {
     private final SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy");
     private final Scanner sc = new Scanner(System.in);
     private final Date nowDate = new Date();
-    Date chosenYear;
+    private Date chosenYear;
 
 
     public String yearChosenByUser() throws ParseException {
