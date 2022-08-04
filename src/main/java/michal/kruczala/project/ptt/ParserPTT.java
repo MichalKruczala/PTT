@@ -21,30 +21,29 @@ public class ParserPTT {
     static final CompetitionNumberParser competitionNumberParser = new CompetitionNumberParser();
     private static final ArchivalCompetitionParser lookForArchivalYearComps = new ArchivalCompetitionParser();
     private static final CompetitionSitesParser competitionSitesParser = new CompetitionSitesParser();
-    private static final String PTTWebSite = "https://baza.taniec.pl/?v=turnieje&p=arch&sz_rok=";
+    private static final String PTTWebSite = "https://baza.taniec.pl/?v=turnieje&p=arch&sz_rok=2004";
     private static final Date nowDate = new Date();
 
     public static <nowDate> void main(String[] args) throws IOException, ParseException {
 
 
-
-       // String pageContent = webReader.downloadWebPage(PTTWebSite);
+        String pageContent = webReader.downloadWebPage(PTTWebSite);
         //  LOGGER.debug(pageContent);
 
-      //  Set<String> competitionNumbers = competitionNumberParser.parse(pageContent);
-        //  LOGGER.debug(String.valueOf(competitionNumbers));
+        Set<String> competitionNumbers = competitionNumberParser.parse(pageContent);
+        LOGGER.debug(String.valueOf(competitionNumbers));
 
-      //  String chosenArchivalPttWebSite = webReader.downloadWebPage(PTTWebSite + lookForArchivalYearComps.yearChosenByUser());
+        //  String chosenArchivalPttWebSite = webReader.downloadWebPage(PTTWebSite + lookForArchivalYearComps.yearChosenByUser());
         //  LOGGER.debug(chosenArchivalPttWebSite);
 
-       // List<String> listOfAllCompetitionsLinks2022 = competitionSitesParser.getListOfCompetitionSites(pageContent);
+        // List<String> listOfAllCompetitionsLinks2022 = competitionSitesParser.getListOfCompetitionSites(pageContent);
         //  LOGGER.debug(String.valueOf(listOfAllCompetitionsLinks2022));
 
-       // List<String> sitesContent = webReader.downloadWebPages(listOfAllCompetitionsLinks2022);
+        // List<String> sitesContent = webReader.downloadWebPages(listOfAllCompetitionsLinks2022);
         // LOGGER.debug(String.valueOf(sitesContent));
 
-        List<String> listOFContents = getChosenYearsCompetitionSitesContentList();
-        LOGGER.debug(String.valueOf(listOFContents));
+        // List<String> listOFContents = getChosenYearsCompetitionSitesContentList();
+        // LOGGER.debug(String.valueOf(listOFContents));
     }
 
     public static List<String> getChosenYearsCompetitionSitesContentList() throws ParseException, IOException {
@@ -52,18 +51,17 @@ public class ParserPTT {
         ArchivalCompetitionParser jolo = new ArchivalCompetitionParser();
 
         int i = jolo.yearChosenByUser();
-        List<String> listakontentów = new ArrayList<>();
+        List<String> listOfChosenPeriodContent = new ArrayList<>();
 
         while (i <= nowDate.getYear() + 1900) {
             String url = PTTWebSite + i;
             String pageContent1 = webReader.downloadWebPage(url);
             List<String> listOfAllCompetitionsLinksOfYear = competitionSitesParser.getListOfCompetitionSites(pageContent1);
-            List<String> sitesContent1 = webReader.downloadWebPages(listOfAllCompetitionsLinksOfYear);
-            Stream<String> st = sitesContent1.stream();
-            st.forEach(list -> listakontentów.add(list));
+            List<String> ListOfOneYearCopmpetitionsContent = webReader.downloadWebPages(listOfAllCompetitionsLinksOfYear);
+            Stream<String> st = ListOfOneYearCopmpetitionsContent.stream();
+            st.forEach(list -> listOfChosenPeriodContent.add(list));
             i++;
-
         }
-        return listakontentów;
+        return listOfChosenPeriodContent;
     }
 }
