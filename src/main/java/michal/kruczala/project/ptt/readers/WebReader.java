@@ -1,7 +1,4 @@
 package michal.kruczala.project.ptt.readers;
-
-import org.apache.log4j.Category;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,13 +22,13 @@ public class WebReader {
         for (String link : listOfAllCompetitionsLinks ){
             pagesContent.add(downloadWebPage(link));
         }
-            return pagesContent;
+        return pagesContent;
     }
     private URLConnection getUrlConnection(String url) throws IOException {
         URLConnection urlConnection = new URL(url).openConnection();
         urlConnection.addRequestProperty("User-Agent", "Mozilla");
-        urlConnection.setReadTimeout(5000);
-        urlConnection.setConnectTimeout(5000);
+        urlConnection.setReadTimeout(50000);
+        urlConnection.setConnectTimeout(50000);
         return urlConnection;
     }
     private static StringBuilder readWebPage(URLConnection urlConnection) throws IOException {

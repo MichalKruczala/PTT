@@ -7,10 +7,12 @@ import static michal.kruczala.project.ptt.ParserPTT.competitionNumberParser;
 
 
 public class CompetitionSitesParser {
-    public List<String> getListOfCompetitionSites(String pttWebSite) {
+
+    public List<String> getListOfCompetitionSites(String pttWebSite,int year) {
 
         List<String> listOfAllCompetitionSitesThisYear = new ArrayList<>();
-        String link = "https://baza.taniec.pl/turniej.php?nr=";
+        String link = getCompetitionCorrectLink(year);
+
 
         for (String competitionNumber : competitionNumberParser.parse(pttWebSite)
         ) {
@@ -19,4 +21,12 @@ public class CompetitionSitesParser {
         }
         return listOfAllCompetitionSitesThisYear;
     }
+    private String getCompetitionCorrectLink(int rok) {
+        if(rok < 2014){
+            return "https://baza.taniec.pl/?v=turnieje_pary&w=";
+        }
+        return "https://baza.taniec.pl/turniej.php?nr=";
+
+    }
 }
+

@@ -30,7 +30,7 @@ public class ArchivalCompetitionParser {
                 LOGGER.debug("Wrong year");
             }
         } while (validateDate(firstArchivalCompetitionYear));
-       ;
+        ;
         return chosenYear.getYear()+1900;
     }
 
@@ -44,6 +44,5 @@ public class ArchivalCompetitionParser {
     private Date convertGivenYearToDataType(String year) throws ParseException {
         return dataFormat.parse(year);
     }
-
 
 }
