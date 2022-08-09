@@ -13,34 +13,36 @@ import java.util.Scanner;
 @Slf4j
 public class ArchivalCompetitionParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParserPTT.class);
-
-    private final Scanner sc = new Scanner(System.in);
-    private final Date nowDate = new Date();
-    private final SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy");
+    SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy");
     private Date chosenYear;
 
     public int yearChosenByUser() throws ParseException {
-        Date firstArchivalCompetitionYear = dataFormat.parse("2004");
+
         do {
             LOGGER.debug("Insert Year of Comps ,you are interested in (possible years 2004-2022): ");
             chosenYear = convertGivenYearToDataType(takeYearFromUser());
             LOGGER.debug(chosenYear + " - chosen year");
 
-            if (validateDate(firstArchivalCompetitionYear)) {
+            if (validateDate()) {
                 LOGGER.debug("Wrong year");
             }
-        } while (validateDate(firstArchivalCompetitionYear));
+        } while (validateDate());
         ;
-        return chosenYear.getYear()+1900;
+        return chosenYear.getYear() + 1900;
     }
 
-    private boolean validateDate(Date firstArchivalCompetitionYear) {
+    private boolean validateDate() throws ParseException {
+        Date firstArchivalCompetitionYear = dataFormat.parse("2004");
+        Date nowDate = new Date();
+
         return chosenYear.before(firstArchivalCompetitionYear) || chosenYear.after(nowDate);
     }
 
     private String takeYearFromUser() {
+        Scanner sc = new Scanner(System.in);
         return sc.next();
     }
+
     private Date convertGivenYearToDataType(String year) throws ParseException {
         return dataFormat.parse(year);
     }

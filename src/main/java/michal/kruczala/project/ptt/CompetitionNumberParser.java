@@ -24,7 +24,6 @@ public class CompetitionNumberParser {
                 competitionNumber = row.substring(0, 3);
             }
             competitionNumbers.add(competitionNumber);
-
         }
         return competitionNumbers;
     }
