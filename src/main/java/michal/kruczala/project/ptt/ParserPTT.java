@@ -22,20 +22,20 @@ public class ParserPTT {
     public static <nowDate> void main(String[] args) throws IOException, ParseException {
 
 
-        String pageContent = webReader.downloadWebPage(PTTWebSite);
-        LOGGER.debug(pageContent);
+       // String pageContent = webReader.downloadWebPage(PTTWebSite);
+       // LOGGER.debug(pageContent);
 
-        Set<String> competitionNumbers = competitionNumberParser.parse(pageContent);
-        LOGGER.debug(String.valueOf(competitionNumbers));
-        int year = lookForArchivalYearComps.yearChosenByUser();
-        String chosenArchivalPttWebSite = webReader.downloadWebPage(PTTWebSite + year);
-        LOGGER.debug(chosenArchivalPttWebSite);
+      //  Set<String> competitionNumbers = competitionNumberParser.parse(pageContent);
+       // LOGGER.debug(String.valueOf(competitionNumbers));
+      //  int year = lookForArchivalYearComps.yearChosenByUser();
+      //  String chosenArchivalPttWebSite = webReader.downloadWebPage(PTTWebSite + year);
+       // LOGGER.debug(chosenArchivalPttWebSite);
 
-        List<String> listOfAllCompetitionsLinks2022 = competitionSitesParser.getListOfCompetitionSites(pageContent, year);
-        LOGGER.debug(String.valueOf(listOfAllCompetitionsLinks2022));
+       // List<String> listOfAllCompetitionsLinks2022 = competitionSitesParser.getListOfCompetitionSites(pageContent, year);
+      //  LOGGER.debug(String.valueOf(listOfAllCompetitionsLinks2022));
 
-        List<String> sitesContent = webReader.downloadWebPages(listOfAllCompetitionsLinks2022);
-        LOGGER.debug(String.valueOf(sitesContent));
+      //  List<String> sitesContent = webReader.downloadWebPages(listOfAllCompetitionsLinks2022);
+       // LOGGER.debug(String.valueOf(sitesContent));
 
         List<String> listOFContents = getChosenYearsCompetitionSitesContentList();
         LOGGER.debug(String.valueOf(listOFContents));
@@ -51,8 +51,8 @@ public class ParserPTT {
 
         while (i <= nowDate.getYear() + 1900) {
             String url = PTTWebSite + i;
-            String pageContent1 = webReader.downloadWebPage(url);
-            List<String> listOfAllCompetitionsLinksOfYear = competitionSitesParser.getListOfCompetitionSites(pageContent1, i);
+            String yearPageContent = webReader.downloadWebPage(url);
+            List<String> listOfAllCompetitionsLinksOfYear = competitionSitesParser.getListOfCompetitionSites(yearPageContent, i);
             List<String> ListOfOneYearCompetitionsContent = webReader.downloadWebPages(listOfAllCompetitionsLinksOfYear);
             Stream<String> st = ListOfOneYearCompetitionsContent.stream();
             st.forEach(listOfChosenPeriodContent::add);
