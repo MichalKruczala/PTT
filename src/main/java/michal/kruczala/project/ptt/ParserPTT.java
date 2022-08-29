@@ -1,63 +1,83 @@
 package michal.kruczala.project.ptt;
 
 import michal.kruczala.project.ptt.readers.WebReader;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Stream;
+import java.time.LocalDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ParserPTT {
-    static final Logger LOGGER = LoggerFactory.getLogger(ParserPTT.class);
-    static final WebReader webReader = new WebReader();
-    static final CompetitionNumberParser competitionNumberParser = new CompetitionNumberParser();
-    private static final ArchivalCompetitionParser lookForArchivalYearComps = new ArchivalCompetitionParser();
+    private static final Logger logger = LoggerFactory.getLogger(ParserPTT.class);
+    private static final WebReader webReader = new WebReader();
     private static final CompetitionSitesParser competitionSitesParser = new CompetitionSitesParser();
-    private static final String PTTWebSite = "https://baza.taniec.pl/?v=turnieje&p=arch&sz_rok=";
-    private static final Date nowDate = new Date();
-
-    public static <nowDate> void main(String[] args) throws IOException, ParseException {
+    private static final String pTTWebSite = "https://baza.taniec.pl/?v=turnieje&p=arch&sz_rok=";
 
 
-       // String pageContent = webReader.downloadWebPage(PTTWebSite);
-       // LOGGER.debug(pageContent);
+    public static void main(String[] args) throws IOException, ParseException {
 
-      //  Set<String> competitionNumbers = competitionNumberParser.parse(pageContent);
-       // LOGGER.debug(String.valueOf(competitionNumbers));
-      //  int year = lookForArchivalYearComps.yearChosenByUser();
-      //  String chosenArchivalPttWebSite = webReader.downloadWebPage(PTTWebSite + year);
-       // LOGGER.debug(chosenArchivalPttWebSite);
 
-       // List<String> listOfAllCompetitionsLinks2022 = competitionSitesParser.getListOfCompetitionSites(pageContent, year);
-      //  LOGGER.debug(String.valueOf(listOfAllCompetitionsLinks2022));
+      //  List<String> listOFContents = getChosenYearsCompetitionSitesContentList();
+      //  logger.debug(String.valueOf(listOFContents));
+        //List<String> listOfCompetitionNames = getChosenYearsCompetitionNames();
+      //  String nazwaTurnieju =
 
-      //  List<String> sitesContent = webReader.downloadWebPages(listOfAllCompetitionsLinks2022);
-       // LOGGER.debug(String.valueOf(sitesContent));
 
-        List<String> listOFContents = getChosenYearsCompetitionSitesContentList();
-        LOGGER.debug(String.valueOf(listOFContents));
+        String doObróbki = "n class=\"white\"> <h2>CeA Challenge Cup Letni Pod Honorowym Patronatem Wojewody Małopolskiego Łukasza Kmity oraz Stefana Kolawińskiego Burmistrza Miasta Bochni i Starosty Bocheńskiego Adama Korty</h2>       <p>2022-07-03 Bochnia, Pactum</p></span></di";
+        String do2Obróbki = "<title> Puchar Klas F, E i D - Baza PTT </title>\n";
+        String linkDoTurnieju = "https://baza.taniec.pl/?v=turnieje_pary&w=5267";
+        String nazwaTurnieju;
 
+        //String CompetitionContent = webReader.downloadWebPage(linkDoTurnieju);
+        int przedNazwą = doObróbki.indexOf("white\"> <h2>");
+        int poNazwie = doObróbki.indexOf("</p></span><");
+        nazwaTurnieju = doObróbki.substring(przedNazwą+12,poNazwie);
+       String jolo =  nazwaTurnieju.replace("</h2>       <p>"," ");
+
+        System.out.println(jolo);
+
+        //  getChosenYearsCompetitionNames();
     }
 
     public static List<String> getChosenYearsCompetitionSitesContentList() throws ParseException, IOException {
 
-        ArchivalCompetitionParser archivalCompetitionParser = new ArchivalCompetitionParser();
-
-        int i = archivalCompetitionParser.yearChosenByUser();
+        DataFromUser dataFromUser = new DataFromUser();
+        LocalDate nowDate = LocalDate.now();
+        int chosenYear = dataFromUser.takeYear();
         List<String> listOfChosenPeriodContent = new ArrayList<>();
 
-        while (i <= nowDate.getYear() + 1900) {
-            String url = PTTWebSite + i;
-            String yearPageContent = webReader.downloadWebPage(url);
-            List<String> listOfAllCompetitionsLinksOfYear = competitionSitesParser.getListOfCompetitionSites(yearPageContent, i);
+        while (chosenYear <= nowDate.getYear()) {
+            String archivalCompetitionsWebSIteURL = pTTWebSite + chosenYear;
+            String yearPageContent = webReader.downloadWebPage(archivalCompetitionsWebSIteURL);
+            List<String> listOfAllCompetitionsLinksOfYear = competitionSitesParser.getListOfCompetitionSites(yearPageContent, chosenYear);
             List<String> ListOfOneYearCompetitionsContent = webReader.downloadWebPages(listOfAllCompetitionsLinksOfYear);
             Stream<String> st = ListOfOneYearCompetitionsContent.stream();
             st.forEach(listOfChosenPeriodContent::add);
-            i++;
+            chosenYear++;
         }
         return listOfChosenPeriodContent;
+    }
+
+    private static String getChosenYearsCompetitionNames() throws ParseException, IOException {
+        //List<String> competitionNames = new ArrayList<>();
+        //List<String> chosenSitesContent = getChosenYearsCompetitionSitesContentList();
+
+        String doObróbki = "n class=\"white\"> <h2>CeA Challenge Cup Letni Pod Honorowym Patronatem Wojewody Małopolskiego Łukasza Kmity oraz Stefana Kolawińskiego Burmistrza Miasta Bochni i Starosty Bocheńskiego Adama Korty</h2>       <p>2022-07-03 Bochnia, Pactum</p></span></di";
+        String linkDoTurnieju = "https://baza.taniec.pl/?v=turnieje_pary&w=5267";
+        String nazwaTurnieju;
+
+        //String CompetitionContent = webReader.downloadWebPage(linkDoTurnieju);
+        int przedNazwą = doObróbki.indexOf("<h2>");
+        int poNazwie = doObróbki.indexOf("</p></span><");
+        nazwaTurnieju = doObróbki.substring(doObróbki.indexOf(przedNazwą,poNazwie));
+
+
+       return nazwaTurnieju;
     }
 }

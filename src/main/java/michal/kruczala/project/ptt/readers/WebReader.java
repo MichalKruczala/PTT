@@ -17,6 +17,9 @@ public class WebReader {
         return result.toString();
 
     }
+
+
+
     public List<String> downloadWebPages(List<String> listOfAllCompetitionsLinks) throws IOException{
         List<String> pagesContent = new ArrayList<>();
         for (String link : listOfAllCompetitionsLinks ){

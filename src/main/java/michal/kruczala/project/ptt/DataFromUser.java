@@ -11,12 +11,12 @@ import java.util.Date;
 import java.util.Scanner;
 
 @Slf4j
-public class ArchivalCompetitionParser {
+public class DataFromUser {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParserPTT.class);
     SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy");
     private Date chosenYear;
 
-    public int yearChosenByUser() throws ParseException {
+    public int takeYear() throws ParseException {
 
         do {
             LOGGER.debug("Insert Year of Comps ,you are interested in (possible years 2004-2022): ");
